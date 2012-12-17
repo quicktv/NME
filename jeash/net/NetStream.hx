@@ -56,7 +56,6 @@ class NetStream extends EventDispatcher {
 	*/
 	public var bufferTime :Float;
 	
-	public var play:Dynamic;
 	public var client:Dynamic;
 	private static inline var fps:Int = 30;
 
@@ -80,9 +79,12 @@ class NetStream extends EventDispatcher {
 		super();
 
 		jeashVideoElement = cast js.Lib.document.createElement("video");
+
+		_soundTransform = new flash.media.SoundTransform(1.0);
+
 		jeashConnection = connection;
 
-		play = Reflect.makeVarArgs(jeashPlay);
+		//play = Reflect.makeVarArgs(jeashPlay);
 	}
 
 	public function jeashBufferEmpty (e) jeashConnection.dispatchEvent(new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false, { code : CODE_BUFFER_EMPTY })) 
@@ -94,6 +96,44 @@ class NetStream extends EventDispatcher {
 	{
 		var url = Std.string(val[0]);
 		jeashVideoElement.src = url;
+	}
+
+	public var time(getTime, setTime):Float;
+
+	public function getTime():Float {
+		return jeashVideoElement.currentTime;
+	}
+	public function setTime(value:Float):Float {
+		return jeashVideoElement.currentTime = value;
+	}
+
+	public var soundTransform(getSoundTransform, setSoundTransform):flash.media.SoundTransform;
+
+	var _soundTransform:flash.media.SoundTransform;
+	public function getSoundTransform():flash.media.SoundTransform {
+		return _soundTransform;
+	}
+	public function setSoundTransform(value:flash.media.SoundTransform):flash.media.SoundTransform {
+		_soundTransform = value;
+		jeashVideoElement.volume = _soundTransform.volume;
+		return _soundTransform;
+	}
+
+	public function pause() : Void {
+		jeashVideoElement.pause();
+	}
+
+	public function resume() : Void {
+		jeashVideoElement.play();
+	}
+
+	public function play(url:String) : Void {
+		jeashVideoElement.src = url;
+		jeashVideoElement.play();
+	}
+
+	public function seek(offset : Float) : Void {
+		jeashVideoElement.currentTime = offset;
 	}
 	
 	/*

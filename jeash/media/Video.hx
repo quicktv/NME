@@ -41,6 +41,15 @@ import js.Dom;
 import jeash.media.VideoElement;
 
 class Video extends DisplayObject {
+
+	private static inline var GRAPHICS_INVALID:Int 				= 1 << 1;
+	private static inline var MATRIX_INVALID:Int 				= 1 << 2;
+	private static inline var MATRIX_CHAIN_INVALID:Int 			= 1 << 3;
+	private static inline var MATRIX_OVERRIDDEN:Int 			= 1 << 4;
+	private static inline var TRANSFORM_INVALID:Int 			= 1 << 5;
+	private static inline var BOUNDS_INVALID:Int 				= 1 << 6;
+	
+	private static inline var RENDER_VALIDATE_IN_PROGRESS:Int 	= 1 << 10;
 	
 	private var jeashGraphics:Graphics;
 	
@@ -66,6 +75,9 @@ class Video extends DisplayObject {
 		jeashGraphics.drawRect(0, 0, width, height);
 		
 		this.width = width;
+
+		Console.log("this.width " + this.width + " width " + width);
+
 		this.height = height;
 		
 		this.smoothing = false;
@@ -98,12 +110,17 @@ class Video extends DisplayObject {
 	{
 		this.netStream = ns;
 		var scope:Video = this;
-		
-		jeashGraphics.jeashMediaSurface(ns.jeashVideoElement);
 
-		ns.jeashVideoElement.style.setProperty("width", width + "px", "");
-		ns.jeashVideoElement.style.setProperty("height", height + "px", "");
+		var oldWidth:Float = width;
+		var oldHeight:Float = height;
 
+		jeashGraphics = new Graphics(ns.jeashVideoElement);
+
+		this.width = oldWidth;
+		this.height = oldHeight;
+
+		ns.jeashVideoElement.style.setProperty("width", oldWidth + "px", "");
+		ns.jeashVideoElement.style.setProperty("height", oldHeight + "px", "");
 		ns.jeashVideoElement.addEventListener("error", ns.jeashNotFound, false);
 		ns.jeashVideoElement.addEventListener("waiting", ns.jeashBufferEmpty, false);
 		ns.jeashVideoElement.addEventListener("ended", ns.jeashBufferStop, false);
