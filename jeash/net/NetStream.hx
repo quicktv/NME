@@ -62,7 +62,7 @@ class NetStream extends EventDispatcher {
 
 	public var jeashVideoElement(default, null):HTMLMediaElement;
 	
-	private var timer:Timer;
+	//private var timer:Timer;
 	private var jeashConnection: NetConnection;
 
 	private var currentReadyState:Int;
