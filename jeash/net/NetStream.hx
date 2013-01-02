@@ -27,10 +27,11 @@
 package jeash.net;
 //import haxe.remoting.Connection;
 import jeash.events.NetStatusEvent;
-import haxe.Timer;
+//import haxe.Timer;
 import jeash.display.Graphics;
 import jeash.events.Event;
 import jeash.events.EventDispatcher;
+import jeash.events.NetStreamEvent;
 import jeash.media.VideoElement;
 import jeash.Lib;
 
@@ -64,6 +65,8 @@ class NetStream extends EventDispatcher {
 	private var timer:Timer;
 	private var jeashConnection: NetConnection;
 
+	private var currentReadyState:Int;
+
 	/* events */
 	public static inline var BUFFER_UPDATED:String = "jeash.net.NetStream.updated";
 	
@@ -79,12 +82,23 @@ class NetStream extends EventDispatcher {
 		super();
 
 		jeashVideoElement = cast js.Lib.document.createElement("video");
+		jeashVideoElement.addEventListener("canplay", onCanPlay, false);
 
 		_soundTransform = new flash.media.SoundTransform(1.0);
 
 		jeashConnection = connection;
 
+		currentReadyState = -1;
+
+		//stateTimer = new Timer(500);
+		//stateTimer.run = onStateTimer;
+
 		//play = Reflect.makeVarArgs(jeashPlay);
+	}
+
+	function onCanPlay(e:Dynamic):Void {
+		//Console.log("canplay event received " + jeashVideoElement.readyState + " " + e);
+		dispatchEvent(new NetStreamEvent(NetStreamEvent.READY_STATE_CHANGED, currentReadyState = jeashVideoElement.readyState));
 	}
 
 	public function jeashBufferEmpty (e) jeashConnection.dispatchEvent(new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false, { code : CODE_BUFFER_EMPTY })) 
@@ -135,6 +149,20 @@ class NetStream extends EventDispatcher {
 	public function seek(offset : Float) : Void {
 		jeashVideoElement.currentTime = offset;
 	}
+
+	//var stateTimer:Timer;
+
+	/*function onStateTimer():Void {
+		Console.log("state -- " + jeashVideoElement.readyState);
+
+		if (jeashVideoElement.readyState != currentReadyState) {
+			if (jeashVideoElement.readyState == 3) {
+				stateTimer.stop();
+			} else {
+				//dispatchEvent(new NetStreamEvent(NetStreamEvent.READY_STATE_CHANGED, currentReadyState = jeashVideoElement.readyState));
+			}
+		}
+	}*/
 	
 	/*
 	todo:
