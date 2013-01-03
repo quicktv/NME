@@ -27,7 +27,7 @@
 package jeash.net;
 //import haxe.remoting.Connection;
 import jeash.events.NetStatusEvent;
-//import haxe.Timer;
+import haxe.Timer;
 import jeash.display.Graphics;
 import jeash.events.Event;
 import jeash.events.EventDispatcher;
@@ -66,6 +66,7 @@ class NetStream extends EventDispatcher {
 	private var jeashConnection: NetConnection;
 
 	private var currentReadyState:Int;
+	var stateTimer:Timer;
 
 	/* events */
 	public static inline var BUFFER_UPDATED:String = "jeash.net.NetStream.updated";
@@ -90,15 +91,15 @@ class NetStream extends EventDispatcher {
 
 		currentReadyState = -1;
 
-		//stateTimer = new Timer(500);
-		//stateTimer.run = onStateTimer;
+		stateTimer = new Timer(500);
+		stateTimer.run = onStateTimer;
 
 		//play = Reflect.makeVarArgs(jeashPlay);
 	}
 
 	function onCanPlay(e:Dynamic):Void {
 		//Console.log("canplay event received " + jeashVideoElement.readyState + " " + e);
-		dispatchEvent(new NetStreamEvent(NetStreamEvent.READY_STATE_CHANGED, currentReadyState = jeashVideoElement.readyState));
+		dispatchEvent(new NetStreamEvent(NetStreamEvent.CAN_PLAY, currentReadyState = jeashVideoElement.readyState));
 	}
 
 	public function jeashBufferEmpty (e) jeashConnection.dispatchEvent(new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false, { code : CODE_BUFFER_EMPTY })) 
@@ -150,19 +151,17 @@ class NetStream extends EventDispatcher {
 		jeashVideoElement.currentTime = offset;
 	}
 
-	//var stateTimer:Timer;
-
-	/*function onStateTimer():Void {
+	function onStateTimer():Void {
 		Console.log("state -- " + jeashVideoElement.readyState);
 
 		if (jeashVideoElement.readyState != currentReadyState) {
-			if (jeashVideoElement.readyState == 3) {
+			currentReadyState = jeashVideoElement.readyState;
+			dispatchEvent(new NetStreamEvent(NetStreamEvent.READY_STATE_CHANGED, currentReadyState));
+			if (currentReadyState == 4) {
 				stateTimer.stop();
-			} else {
-				//dispatchEvent(new NetStreamEvent(NetStreamEvent.READY_STATE_CHANGED, currentReadyState = jeashVideoElement.readyState));
-			}
+			} 
 		}
-	}*/
+	}
 	
 	/*
 	todo:
