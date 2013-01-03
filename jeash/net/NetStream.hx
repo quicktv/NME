@@ -127,14 +127,16 @@ class NetStream extends EventDispatcher {
 
 		jeashVideoElement.addEventListener("play", function(e:Dynamic):Void {
 			Console.log("play");
+			dispatchEvent(new NetStreamEvent(NetStreamEvent.PLAY));
 		}, false);
 
 		jeashVideoElement.addEventListener("playing", function(e:Dynamic):Void {
 			Console.log("playing");
+			dispatchEvent(new NetStreamEvent(NetStreamEvent.PLAYING));
 		}, false);
 
 		jeashVideoElement.addEventListener("progress", function(e:Dynamic):Void {
-			Console.log("progress");
+			Console.log("progress " + e);
 		}, false);
 
 		jeashVideoElement.addEventListener("ratechange", function(e:Dynamic):Void {
@@ -158,7 +160,7 @@ class NetStream extends EventDispatcher {
 		}, false);
 
 		jeashVideoElement.addEventListener("timeupdate", function(e:Dynamic):Void {
-			Console.log("timeupdate");
+			//Console.log("timeupdate");
 		}, false);
 
 		jeashVideoElement.addEventListener("volumechange", function(e:Dynamic):Void {
@@ -237,7 +239,7 @@ class NetStream extends EventDispatcher {
 	}
 
 	function onStateTimer():Void {
-		Console.log("state -- " + jeashVideoElement.readyState);
+		//Console.log("state -- " + jeashVideoElement.readyState);
 
 		if (jeashVideoElement.readyState != currentReadyState) {
 			currentReadyState = jeashVideoElement.readyState;
