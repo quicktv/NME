@@ -86,77 +86,77 @@ class NetStream extends EventDispatcher {
 		jeashVideoElement.addEventListener("canplay", onCanPlay, false);
 
 		jeashVideoElement.addEventListener("abort", function(e:Dynamic):Void {
-			Console.log("abort");
+			//Console.log("abort");
 		}, false);
 
 		jeashVideoElement.addEventListener("canplaythrough", function(e:Dynamic):Void {
-			Console.log("canplaythrough");
+			//Console.log("canplaythrough");
 		}, false);
 
 		jeashVideoElement.addEventListener("durationchange", function(e:Dynamic):Void {
-			Console.log("durationchange");
+			//Console.log("durationchange");
 		}, false);
 
 		jeashVideoElement.addEventListener("emptied", function(e:Dynamic):Void {
-			Console.log("emptied");
+			//Console.log("emptied");
 		}, false);
 
 		jeashVideoElement.addEventListener("ended", function(e:Dynamic):Void {
-			Console.log("ended");
+			//Console.log("ended");
 		}, false);
 
 		jeashVideoElement.addEventListener("error", function(e:Dynamic):Void {
-			Console.log("error");
+			//Console.log("error");
 		}, false);
 
 		jeashVideoElement.addEventListener("loadeddata", function(e:Dynamic):Void {
-			Console.log("loadeddata");
+			//Console.log("loadeddata");
 		}, false);
 
 		jeashVideoElement.addEventListener("loadedmetadata", function(e:Dynamic):Void {
-			Console.log("loadedmetadata");
+			//Console.log("loadedmetadata");
 		}, false);
 
 		jeashVideoElement.addEventListener("loadstart", function(e:Dynamic):Void {
-			Console.log("loadstart");
+			//Console.log("loadstart");
 		}, false);
 
 		jeashVideoElement.addEventListener("pause", function(e:Dynamic):Void {
-			Console.log("pause");
+			//Console.log("pause");
 		}, false);
 
 		jeashVideoElement.addEventListener("play", function(e:Dynamic):Void {
-			Console.log("play");
+			//Console.log("play");
 			dispatchEvent(new NetStreamEvent(NetStreamEvent.PLAY));
 		}, false);
 
 		jeashVideoElement.addEventListener("playing", function(e:Dynamic):Void {
-			Console.log("playing");
+			//Console.log("playing");
 			dispatchEvent(new NetStreamEvent(NetStreamEvent.PLAYING));
 		}, false);
 
 		jeashVideoElement.addEventListener("progress", function(e:Dynamic):Void {
-			Console.log("progress " + e);
+			//Console.log("progress " + e);
 		}, false);
 
 		jeashVideoElement.addEventListener("ratechange", function(e:Dynamic):Void {
-			Console.log("ratechange");
+			//Console.log("ratechange");
 		}, false);
 
 		jeashVideoElement.addEventListener("seeked", function(e:Dynamic):Void {
-			Console.log("seeked");
+			//Console.log("seeked");
 		}, false);
 
 		jeashVideoElement.addEventListener("seeking", function(e:Dynamic):Void {
-			Console.log("seeking");
+			//Console.log("seeking");
 		}, false);
 
 		jeashVideoElement.addEventListener("stalled", function(e:Dynamic):Void {
-			Console.log("stalled");
+			//Console.log("stalled");
 		}, false);
 
 		jeashVideoElement.addEventListener("suspend", function(e:Dynamic):Void {
-			Console.log("suspend");
+			//Console.log("suspend");
 		}, false);
 
 		jeashVideoElement.addEventListener("timeupdate", function(e:Dynamic):Void {
@@ -164,11 +164,11 @@ class NetStream extends EventDispatcher {
 		}, false);
 
 		jeashVideoElement.addEventListener("volumechange", function(e:Dynamic):Void {
-			Console.log("volumechange");
+			//Console.log("volumechange");
 		}, false);
 
 		jeashVideoElement.addEventListener("waiting", function(e:Dynamic):Void {
-			Console.log("waiting");
+			//Console.log("waiting");
 		}, false);
 
 		_soundTransform = new flash.media.SoundTransform(1.0);
